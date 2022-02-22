@@ -2,9 +2,9 @@
 
 set -euo pipefail
 
-GH_REPO="https://github.com/jckuester/awsls"
-TOOL_NAME="awsls"
-TOOL_TEST="awsls --version"
+GH_REPO="https://github.com/jckuester/terradozer"
+TOOL_NAME="terradozer"
+TOOL_TEST="terradozer --version"
 
 fail() {
   echo -e "asdf-$TOOL_NAME: $*"
@@ -13,7 +13,7 @@ fail() {
 
 curl_opts=(-fsSL)
 
-# NOTE: You might want to remove this if awsls is not hosted on GitHub releases.
+# NOTE: You might want to remove this if terradozer is not hosted on GitHub releases.
 if [ -n "${GITHUB_API_TOKEN:-}" ]; then
   curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
 fi
@@ -58,7 +58,7 @@ install_version() {
     tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
 
     mkdir -p "$install_path"/bin
-    cp "$ASDF_DOWNLOAD_PATH"/"$tool_cmd" "$install_path"/bin
+    cp "$ASDF_DOWNLOAD_PATH"/"${TOOL_NAME}_${version}_$(get_platform)_$(get_arch)"/"$tool_cmd" "$install_path"/bin
 
     test -x "$install_path/bin/$tool_cmd" || fail "Expected $install_path/bin/$tool_cmd to be executable."
 
